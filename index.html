@@ -9,7 +9,7 @@
 html,body{height:100%}
 *{box-sizing:border-box}
 body{margin:0;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;min-height:100vh;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;background:#ffffff;color:#111111}
-.main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative}
 .content{font-weight:600;letter-spacing:0.02em;font-size:clamp(24px,12vw,64px);line-height:1.1;text-align:center}
 .content span{display:inline-block;will-change:transform}
 @keyframes bounce{0%{transform:translateY(0)}30%{transform:translateY(-0.35em)}60%{transform:translateY(0)}80%{transform:translateY(-0.12em)}100%{transform:translateY(0)}}
@@ -21,13 +21,119 @@ body{margin:0;display:flex;flex-direction:column;align-items:stretch;justify-con
 .email{display:block;margin-top:clamp(12px,3vw,20px);font-size:clamp(14px,5vw,24px);font-weight:500;text-decoration:none;color:inherit;opacity:.85;text-align:center}
 .email:focus,.email:hover{text-decoration:underline;opacity:1}
 .footer{margin-top:auto;padding:12px 16px;font-size:12px;opacity:.6;text-align:center}
+
+/* 太极图样式 */
+.taiji-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+    animation: rotate 18s linear infinite;
+}
+
+.taiji-container.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.taiji {
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #000 50%, #fff 50%);
+    position: relative;
+    box-shadow: 0 0 30px rgba(0,0,0,0.2);
+}
+
+.taiji::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 120px;
+    background: #fff;
+    border-radius: 50%;
+    border: 38px solid #000;
+    box-sizing: border-box;
+}
+
+.taiji::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 120px;
+    background: #000;
+    border-radius: 50%;
+    border: 38px solid #fff;
+    box-sizing: border-box;
+}
+
+@keyframes rotate {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* 原始内容隐藏状态 */
+.original-content {
+    transition: all 0.5s ease;
+}
+
+.original-content.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* 提示文字 */
+.hint {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    opacity: 0.5;
+    color: #666;
+    transition: opacity 0.3s ease;
+}
+
+.hint.hidden {
+    opacity: 0;
+}
 </style>
 </head>
 <body>
 <main class="main" role="main">
+<div class="original-content">
 <div class="content"><span>L</span><span>0</span><span>x</span><span>7</span><span>c</span></div>
 <a class="email" href="mailto:L0x7c@foxmail.com">L0x7c@foxmail.com</a>
+</div>
+<div class="taiji-container">
+<div class="taiji"></div>
+</div>
+<!-- <div class="hint">Press 'G' to toggle Taiji</div> -->
 </main>
 <footer class="footer" role="contentinfo">© 2025 L0x7c · Hosted by GitHub Pages</footer>
+
+<script>
+document.addEventListener('keydown', function(event) {
+    if (event.key.toLowerCase() === 'g') {
+        const originalContent = document.querySelector('.original-content');
+        const taijiContainer = document.querySelector('.taiji-container');
+        const hint = document.querySelector('.hint');
+        
+        // 切换显示状态
+        originalContent.classList.toggle('hidden');
+        taijiContainer.classList.toggle('active');
+        hint.classList.toggle('hidden');
+    }
+});
+</script>
 </body>
 </html>
