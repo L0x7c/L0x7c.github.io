@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html translate="no">
 <head>
 <meta charset="utf-8">
 <title>L0x7c</title>
@@ -8,23 +8,65 @@
 <style>
 html,body{height:100%}
 *{box-sizing:border-box}
-body{margin:0;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;min-height:100vh;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;background:#ffffff;color:#111111}
-.main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative}
-.content{font-weight:600;letter-spacing:0.02em;font-size:clamp(24px,12vw,64px);line-height:1.1;text-align:center}
-.content span{display:inline-block;will-change:transform}
-@keyframes bounce{0%{transform:translateY(0)}30%{transform:translateY(-0.35em)}60%{transform:translateY(0)}80%{transform:translateY(-0.12em)}100%{transform:translateY(0)}}
-.content:hover span{animation:bounce .6s ease-out}
-.content:hover span:nth-child(2){animation-delay:.03s}
-.content:hover span:nth-child(3){animation-delay:.06s}
-.content:hover span:nth-child(4){animation-delay:.09s}
-.content:hover span:nth-child(5){animation-delay:.12s}
-.email{display:block;margin-top:clamp(12px,3vw,20px);font-size:clamp(14px,5vw,24px);font-weight:500;text-decoration:none;color:inherit;opacity:.85;text-align:center}
-.email:focus,.email:hover{text-decoration:underline;opacity:1}
-.footer{margin-top:auto;padding:12px 16px;font-size:12px;opacity:.6;text-align:center}
+body{
+    margin:0;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    justify-content:flex-start;
+    min-height:100vh;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    background:#ffffff;
+    color:#111111
+}
+
+.main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:center;
+    max-width:900px;
+    width:100%;
+    margin:0 auto;
+    padding:40px 20px;
+}
+
+.greeting{
+    font-size:clamp(48px,12vw,80px);
+    font-weight:600;
+    margin:0 0 50px 0;
+    line-height:1.1;
+    letter-spacing:-0.01em;
+}
+
+.intro{
+    font-size:clamp(32px,5vw,44px);
+    font-weight:600;
+    margin:0 0 50px 0;
+    line-height:1.3;
+}
+
+.content{
+    font-size:clamp(22px,4vw,28px);
+    line-height:1.8;
+    margin:0 0 30px 0;
+}
+
+.content a{
+    color:#0a66c2;
+    text-decoration:none;
+    transition:all 0.2s ease;
+}
+
+.content a:hover{
+    color:#004182;
+}
 
 /* 太极图样式 */
 .taiji-container {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -32,16 +74,16 @@ body{margin:0;display:flex;flex-direction:column;align-items:stretch;justify-con
     visibility: hidden;
     transition: all 0.5s ease;
     animation: rotate 18s linear infinite;
+    z-index: 1000;
 }
 
 .taiji-container.active {
     opacity: 1;
     visibility: visible;
 }
-
 .taiji {
-    width: 240px;
-    height: 240px;
+    width: 480px;
+    height: 480px;
     border-radius: 50%;
     background: linear-gradient(90deg, #000 50%, #fff 50%);
     position: relative;
@@ -54,11 +96,11 @@ body{margin:0;display:flex;flex-direction:column;align-items:stretch;justify-con
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 120px;
-    height: 120px;
+    width: 240px;
+    height: 240px;
     background: #fff;
     border-radius: 50%;
-    border: 38px solid #000;
+    border: 76px solid #000;
     box-sizing: border-box;
 }
 
@@ -68,12 +110,20 @@ body{margin:0;display:flex;flex-direction:column;align-items:stretch;justify-con
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 120px;
-    height: 120px;
+    width: 240px;
+    height: 240px;
     background: #000;
     border-radius: 50%;
-    border: 38px solid #fff;
+    border: 76px solid #fff;
     box-sizing: border-box;
+}
+
+.update-date{
+    font-size:clamp(20px,3.5vw,24px);
+    font-weight:600;
+    text-align:right;
+    margin-top:48px;
+    margin-bottom:0;
 }
 
 @keyframes rotate {
@@ -90,51 +140,43 @@ body{margin:0;display:flex;flex-direction:column;align-items:stretch;justify-con
     opacity: 0;
     visibility: hidden;
 }
-
-/* 提示文字 */
-.hint {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 12px;
-    opacity: 0.5;
-    color: #666;
-    transition: opacity 0.3s ease;
-}
-
-.hint.hidden {
-    opacity: 0;
+.name{
+    font-family: ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
 }
 </style>
 </head>
 <body>
 <main class="main" role="main">
 <div class="original-content">
-<div class="content"><span>L</span><span>0</span><span>x</span><span>7</span><span>c</span></div>
-<a class="email" href="mailto:L0x7c@foxmail.com">L0x7c@foxmail.com</a>
+<!-- <h1 class="greeting">Hello.</h1> -->
+
+<h2 class="intro">Hello, I'm <span class="name">L0x7c</span>.</h2>
+
+<p class="content">I am an independent developer. I am proficient in C/C++, Java, reverse engineering, and full-stack web development.</p>
+
+<p class="content">I don't leave my website or personal profile on other platforms or software, and I don't have a personal blog. You may follow me on <a href="https://x.com/L0x7c" target="_blank" rel="noopener noreferrer">Twitter / X</a> or reach out via <a class="email" href="mailto:L0x7c@foxmail.com">Email</a>.</p>
+
+<p class="content">I like minimalistic style. I'm currently learning design. In my daily life, I enjoy reading, traveling, and photography.</p>
+
+<p class="update-date">November 23, 2025</p>
 </div>
+
 <div class="taiji-container">
 <div class="taiji"></div>
 </div>
-<!-- <div class="hint">Press 'G' to toggle Taiji</div> -->
 </main>
-<footer class="footer" role="contentinfo">© 2025 L0x7c · Hosted by GitHub Pages</footer>
 
 <script>
 document.addEventListener('keydown', function(event) {
     if (event.key.toLowerCase() === 'g') {
         const originalContent = document.querySelector('.original-content');
         const taijiContainer = document.querySelector('.taiji-container');
-        const hint = document.querySelector('.hint');
         
         // 切换显示状态
         originalContent.classList.toggle('hidden');
         taijiContainer.classList.toggle('active');
-        hint.classList.toggle('hidden');
     }
 });
 </script>
 </body>
 </html>
-
